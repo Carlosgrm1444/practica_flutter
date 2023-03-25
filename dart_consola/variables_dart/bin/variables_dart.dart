@@ -40,5 +40,4 @@ void main(List<String> args) {
 
   //Impresion en consola
   print('Esto es una variable numerica: $entero y esta es una variable dinamica: $variable_dinamica1');
-  
 }
