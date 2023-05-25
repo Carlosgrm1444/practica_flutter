@@ -11,5 +11,5 @@ abstract class EnergyPlant{
 
   EnergyPlant({required this.energyLeft, required this.type});
 
-  void consumeEnergy(double amount);
+void consumeEnergy(double amount);
 }
