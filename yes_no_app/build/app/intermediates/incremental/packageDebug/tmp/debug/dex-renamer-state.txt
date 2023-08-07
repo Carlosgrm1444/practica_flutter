@@ -1,0 +1,4 @@
+#Thu Jul 27 09:20:50 CDT 2023
+base.0=C\:\\Users\\Carlos Rodriguez\\Documents\\GitHub\\practica_flutter\\yes_no_app\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
