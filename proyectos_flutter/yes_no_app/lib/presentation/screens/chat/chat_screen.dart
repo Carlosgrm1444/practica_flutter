@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:yes_no_app/config/domain/entities/message.dart';
+import 'package:yes_no_app/presentation/providers/chat_provider.dart';
 import 'package:yes_no_app/presentation/widgets/chat/her_message_bubble.dart';
 import 'package:yes_no_app/presentation/widgets/chat/my_message_bubble.dart';
 import 'package:yes_no_app/presentation/widgets/shared/message_field_box.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -28,24 +31,20 @@ class ChatScreen extends StatelessWidget {
 class _ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final chartProvider = context.watch<ChatProvider>();
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
-            Expanded(child: ListView.builder(
+            Expanded(
+                child: ListView.builder(
+              itemCount: chartProvider.messageList.length,
               itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    (index % 2 == 0)
-                        ? const HerMessageBubble()
-                        : const MyMessageBubble(),
-                    const SizedBox(
-                      height: 7,
-                    )
-                  ],
-                );
+                final message = chartProvider.messageList[index];
+                return (message.fromWho == FromWho.hers)
+                    ? const HerMessageBubble()
+                    : const MyMessageBubble();
               },
             )),
             // ? Caja de texto
