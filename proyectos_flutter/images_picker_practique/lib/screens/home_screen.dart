@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:images_picker_practique/functions/messages.dart';
 import 'package:images_picker_practique/widgets/my_button.dart';
 import 'package:images_picker_practique/widgets/my_title.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -80,27 +84,45 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _checkPermissionImagePicker(Future Function() myFuction) async {
-    PermissionStatus cameraStatus = await Permission.camera.request();
-    PermissionStatus storageStatus = await Permission.storage.request();
+    DeviceInfoPlugin plugin = DeviceInfoPlugin();
+    AndroidDeviceInfo android = await plugin.androidInfo;
+
+    PermissionStatus cameraStatus;
+    PermissionStatus storageStatus;
+
+    if (android.version.sdkInt < 33) {
+      cameraStatus = await Permission.camera.request();
+      storageStatus = await Permission.storage.request();
+    } else {
+      cameraStatus = await Permission.camera.request();
+      storageStatus = await Permission.photos.request();
+    }
 
     if (cameraStatus == PermissionStatus.granted &&
         storageStatus == PermissionStatus.granted) {
       myFuction();
-    } else {
-      if (cameraStatus == PermissionStatus.granted) {
-        ScaffoldMessage("No se concedieron los permisos de la camara");
-      } else if (storageStatus == PermissionStatus.granted) {
-        ScaffoldMessage("No se concedieron los permisos del almacenamiento.");
+    } else if (cameraStatus == PermissionStatus.denied ||
+        storageStatus == PermissionStatus.denied) {
+      if (cameraStatus == PermissionStatus.denied) {
+        ScaffoldMessage("No se concedieron los permisos de la camara", context);
+      } else if (storageStatus == PermissionStatus.denied) {
+        ScaffoldMessage(
+            "No se concedieron los permisos del almacenamiento de fotos.",
+            context);
+      }
+    } else if (cameraStatus == PermissionStatus.permanentlyDenied ||
+        storageStatus == PermissionStatus.permanentlyDenied) {
+      openAppSettings();
+    } else if (cameraStatus.isRestricted || storageStatus.isRestricted) {
+      if (cameraStatus.isRestricted) {
+        ScaffoldMessage(
+            "El permiso de la camara está restringido por el sistema operativo.",
+            context);
+      } else if (storageStatus.isRestricted) {
+        ScaffoldMessage(
+            "El permiso del almacenamiento de fotos está restringido por el sistema operativo.",
+            context);
       }
     }
-  }
-
-  // ignore: non_constant_identifier_names
-  void ScaffoldMessage(String? text) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(text!),
-      ),
-    );
   }
 }
