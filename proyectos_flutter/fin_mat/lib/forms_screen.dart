@@ -1,3 +1,4 @@
+import 'package:fin_mat/operations/formu_c.dart';
 import 'package:flutter/material.dart';
 
 import 'formuls.dart';
@@ -6,17 +7,18 @@ class FormsScreen extends StatefulWidget {
   const FormsScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _FormsScreenState createState() => _FormsScreenState();
 }
 
 class _FormsScreenState extends State<FormsScreen> {
-  List<bool> _customTileExpanded = [];
+  final List<bool> _customTileExpanded = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Formulas"),
+        title: const Text("Formulas matematicas financieras"),
         backgroundColor: Colors.blue[400],
       ),
       body: ListView.builder(
@@ -55,22 +57,33 @@ class _FormsScreenState extends State<FormsScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
-                              title: Text(
-                                formuls[formuls.keys.elementAt(index)][0],
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              subtitle: Text(
-                                'Con los datos: ${formuls[formuls.keys.elementAt(index)][1]}',
-                                style: const TextStyle(fontSize: 17),
+                              title: formuls[formuls.keys.elementAt(index)][0],
+                              subtitle: RichText(
+                                text: TextSpan(
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      color: Colors
+                                          .black), // Estilo predeterminado del texto
+                                  children: <TextSpan>[
+                                    const TextSpan(
+                                      text: 'Con los datos: ',
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '${formuls[formuls.keys.elementAt(index)][1]}',
+                                      style: const TextStyle(
+                                          color: Colors
+                                              .redAccent), // Cambiar el color del texto según tus necesidades
+                                    ),
+                                  ],
+                                ),
                               ),
                               onTap: () {
+                                formuls[formuls.keys.elementAt(index)][2]();
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        DialogCalcu(
-                                          newPage: formuls[
-                                              formuls.keys.elementAt(index)][2],
-                                        ));
+                                        const DialogCalcu());
                               },
                             ),
                           ));
@@ -85,19 +98,45 @@ class _FormsScreenState extends State<FormsScreen> {
 }
 
 class DialogCalcu extends StatelessWidget {
-  const DialogCalcu({super.key, required Widget newPage});
+  // ignore: use_key_in_widget_constructors
+  const DialogCalcu({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Título del Diálogo'),
-      content: newPage!,
+      contentPadding:
+          EdgeInsets.zero, // Elimina el relleno interno del contenido
+      content: FractionallySizedBox(
+        // Hace que el contenido abarque el máximo espacio posible
+        widthFactor: 0.9, // Factor de ancho para el contenido
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+                vertical: 20.0,
+                horizontal: 3.0), // Añade un relleno interno al contenido
+            child: Column(
+              mainAxisSize: MainAxisSize
+                  .min, // Ajusta el tamaño del contenido según sea necesario
+              children: [
+                Center(child: formula),
+                const SizedBox(
+                    height:
+                        20), // Añade un espacio entre el título y el contenido
+                const CfMit(),
+              ],
+            ),
+          ),
+        ),
+      ),
       actions: <Widget>[
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Cerrar'),
+          child: const Text(
+            'Cerrar',
+            style: TextStyle(color: Colors.red),
+          ),
         ),
       ],
     );
