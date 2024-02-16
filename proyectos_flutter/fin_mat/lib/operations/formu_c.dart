@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 String nom = "";
 Widget formula = Container();
+String textFormul = "";
 
 class CfMit extends StatefulWidget {
   const CfMit({Key? key}) : super(key: key);

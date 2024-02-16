@@ -21,6 +21,64 @@ Map<String, dynamic> formulario = {
               r'C = \frac{M}{1 + it}',
               textStyle: const TextStyle(fontSize: 29),
             ),
+            textFormul = "C=M/(1+it)"
+          },
+    ],
+    '2': [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Math.tex(
+          r'C = \frac{M}{1 + dt}',
+          textStyle: const TextStyle(fontSize: 19, color: Colors.green),
+        ),
+      ),
+      'M, t, d',
+      () => {
+            visibles[1] = visibles[4] = visibles[5] = true,
+            nom = 'C - Va',
+            formula = Math.tex(
+              r'C = \frac{M}{1 + dt}',
+              textStyle: const TextStyle(fontSize: 29),
+            ),
+            textFormul = "C=M/(1+dt)"
+          },
+    ],
+    '3': [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Math.tex(
+          r'C = M - I',
+          textStyle: const TextStyle(fontSize: 19, color: Colors.green),
+        ),
+      ),
+      'M, I',
+      () => {
+            visibles[1] = visibles[2] = true,
+            nom = 'C - Va',
+            formula = Math.tex(
+              r'C = M - I',
+              textStyle: const TextStyle(fontSize: 29),
+            ),
+            textFormul = "C = M - I"
+          },
+    ],
+    '4': [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Math.tex(
+          r'C = \frac{Dc(1-dt)}{dt}',
+          textStyle: const TextStyle(fontSize: 19, color: Colors.green),
+        ),
+      ),
+      't, d, Dc',
+      () => {
+            visibles[1] = visibles[4] = visibles[5] = true,
+            nom = 'C - Va',
+            formula = Math.tex(
+              r'C = \frac{Dc(1-dt)}{dt}',
+              textStyle: const TextStyle(fontSize: 29),
+            ),
+            textFormul = "C=Dc(1-dt)/dt"
           },
     ],
   },
@@ -73,8 +131,23 @@ List<bool> visibles = [
 
 double switchFormuls(double fC, double fM, double fI, double fi, double ft,
     double fd, double fDc, double fDr, double fD) {
+  double r = 0;
   switch (nom) {
     case 'C - Va':
+      switch (textFormul) {
+        case "C=M/(1+it)":
+          r = fM * (1 + fi * ft);
+          break;
+        case "C=M/(1+dt)":
+          r = fM * (1 + fd * ft);
+          break;
+        case "C = M - I":
+          r = fM - fI;
+          break;
+        case "C=Dc(1-dt)/dt":
+          r = (fDc * (1 - fd * ft)) / (fd * ft);
+          break;
+      }
       break;
     case 'M - Vn':
       break;
@@ -94,5 +167,5 @@ double switchFormuls(double fC, double fM, double fI, double fi, double ft,
       break;
     default:
   }
-  return fM * (1 + fi * ft);
+  return r;
 }

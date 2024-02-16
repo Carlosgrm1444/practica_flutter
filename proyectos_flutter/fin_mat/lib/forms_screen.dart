@@ -46,48 +46,51 @@ class _FormsScreenState extends State<FormsScreen> {
               });
             },
             children: [
-              ListView.builder(
-                shrinkWrap: true, // Para que el ListView se ajuste al contenido
-                itemCount: formuls.length,
-                itemBuilder: (context, index) {
-                  return formuls.keys.elementAt(index) == 'name'
-                      ? Container()
-                      : Card(
-                          margin: const EdgeInsets.all(5.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              title: formuls[formuls.keys.elementAt(index)][0],
-                              subtitle: RichText(
-                                text: TextSpan(
-                                  style: const TextStyle(
-                                      fontSize: 17,
-                                      color: Colors
-                                          .black), // Estilo predeterminado del texto
-                                  children: <TextSpan>[
-                                    const TextSpan(
-                                      text: 'Con los datos: ',
-                                    ),
-                                    TextSpan(
-                                      text:
-                                          '${formuls[formuls.keys.elementAt(index)][1]}',
-                                      style: const TextStyle(
-                                          color: Colors
-                                              .redAccent), // Cambiar el color del texto según tus necesidades
-                                    ),
-                                  ],
+              SizedBox(
+                height: 500,
+                child: ListView.builder(
+                  shrinkWrap: true, // Para que el ListView se ajuste al contenido
+                  itemCount: formuls.length,
+                  itemBuilder: (context, index) {
+                    return formuls.keys.elementAt(index) == 'name'
+                        ? Container()
+                        : Card(
+                            margin: const EdgeInsets.all(5.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                title: formuls[formuls.keys.elementAt(index)][0],
+                                subtitle: RichText(
+                                  text: TextSpan(
+                                    style: const TextStyle(
+                                        fontSize: 17,
+                                        color: Colors
+                                            .black), // Estilo predeterminado del texto
+                                    children: <TextSpan>[
+                                      const TextSpan(
+                                        text: 'Con los datos: ',
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            '${formuls[formuls.keys.elementAt(index)][1]}',
+                                        style: const TextStyle(
+                                            color: Colors
+                                                .redAccent), // Cambiar el color del texto según tus necesidades
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                onTap: () {
+                                  formuls[formuls.keys.elementAt(index)][2]();
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          const DialogCalcu());
+                                },
                               ),
-                              onTap: () {
-                                formuls[formuls.keys.elementAt(index)][2]();
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        const DialogCalcu());
-                              },
-                            ),
-                          ));
-                },
+                            ));
+                  },
+                ),
               ),
             ],
           );
