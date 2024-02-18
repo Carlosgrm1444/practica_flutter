@@ -49,7 +49,8 @@ class _FormsScreenState extends State<FormsScreen> {
               SizedBox(
                 height: 500,
                 child: ListView.builder(
-                  shrinkWrap: true, // Para que el ListView se ajuste al contenido
+                  shrinkWrap:
+                      true, // Para que el ListView se ajuste al contenido
                   itemCount: formuls.length,
                   itemBuilder: (context, index) {
                     return formuls.keys.elementAt(index) == 'name'
@@ -59,7 +60,8 @@ class _FormsScreenState extends State<FormsScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ListTile(
-                                title: formuls[formuls.keys.elementAt(index)][0],
+                                title: formuls[formuls.keys.elementAt(index)]
+                                    [0],
                                 subtitle: RichText(
                                   text: TextSpan(
                                     style: const TextStyle(
@@ -81,6 +83,9 @@ class _FormsScreenState extends State<FormsScreen> {
                                   ),
                                 ),
                                 onTap: () {
+                                  for (var i = 0; i < visibles.length; i++) {
+                                    visibles[i] = false;
+                                  }
                                   formuls[formuls.keys.elementAt(index)][2]();
                                   showDialog(
                                       context: context,
