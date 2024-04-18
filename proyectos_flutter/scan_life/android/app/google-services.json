@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "631211969993",
+    "project_id": "scan-life-2024",
+    "storage_bucket": "scan-life-2024.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631211969993:android:d644726c777825c413ac18",
+        "android_client_info": {
+          "package_name": "com.example.scan_life"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnTLTaCTkFfzMwtrQ_jm_303RF39lXP08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
