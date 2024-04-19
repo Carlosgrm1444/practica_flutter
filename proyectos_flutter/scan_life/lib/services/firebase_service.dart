@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
+
 Future<List> getMedicines() async {
   List medicines = [];
 
@@ -13,4 +14,22 @@ Future<List> getMedicines() async {
   }
 
   return medicines;
+}
+
+Future<Object?> getMedicineById(String id) async {
+  DocumentSnapshot? medicineSnapshot;
+
+  CollectionReference collectionReferenceMedicine = db.collection('medicines');
+
+  try {
+    medicineSnapshot = await collectionReferenceMedicine.doc(id).get();
+  } catch (e) {
+    return null;
+  }
+
+  if (medicineSnapshot.exists) {
+    return medicineSnapshot.data();
+  } else {
+    return null;
+  }
 }

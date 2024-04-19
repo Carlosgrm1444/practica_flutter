@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qrscan/qrscan.dart';
 import 'package:scan_life/services/firebase_service.dart';
+import 'package:scan_life/widgets/medicine_cards.dart';
+import 'package:scan_life/widgets/modal_medicine.dart';
 
 class ListMedicines extends StatefulWidget {
   const ListMedicines({super.key});
@@ -10,6 +13,28 @@ class ListMedicines extends StatefulWidget {
 }
 
 class _ListMedicinesState extends State<ListMedicines> {
+  String qrValue = '';
+
+  void scanQr() async {
+    String? cameraScanResuilt = await scan();
+
+    if (cameraScanResuilt != null) {
+      Map<dynamic, dynamic>? medicineData =
+          (await getMedicineById(cameraScanResuilt)) as Map?;
+
+      if (medicineData != null) {
+        showDialog(
+          context: context,
+          builder: (context) => ModalMedicine(data: medicineData),
+        );
+      } else {
+        // Tratar el caso en el que no se encuentre ninguna medicina con el código de barras escaneado
+      }
+    } else {
+      // Tratar el caso en el que no se haya escaneado ningún código de barras
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,31 +46,8 @@ class _ListMedicinesState extends State<ListMedicines> {
               return ListView.builder(
                 itemCount: snapshot.data?.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    margin: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      leading: Image(
-                        image: NetworkImage(snapshot.data?[index]['image']),
-                      ),
-                      title: Text(snapshot.data?[index]['nombre']),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              'Código de barras: ${snapshot.data?[index]['barcode']}'),
-                          Text(
-                              'Costo mínimo: ${snapshot.data?[index]['numero ']}'),
-                          Text(
-                              'Costo máximo: ${snapshot.data?[index]['numero ']}'),
-                          Text(
-                              'Número de medicamento: ${snapshot.data?[index]['numero ']}'),
-                        ],
-                      ),
-                      onTap: () {
-                        // Acción a realizar cuando se toca la tarjeta del medicamento
-                        // Por ejemplo, abrir una pantalla de detalles del medicamento
-                      },
-                    ),
+                  return MedicineCards(
+                    data: snapshot.data?[index],
                   );
                 },
               );
@@ -57,7 +59,9 @@ class _ListMedicinesState extends State<ListMedicines> {
           })),
       floatingActionButton: FloatingActionButton(
         child: const FaIcon(FontAwesomeIcons.barcode),
-        onPressed: () {},
+        onPressed: () {
+          scanQr();
+        },
       ),
     );
   }
