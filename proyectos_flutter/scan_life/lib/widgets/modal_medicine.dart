@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ModalMedicine extends StatelessWidget {
   final Map data;
@@ -15,28 +16,61 @@ class ModalMedicine extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              title: Text('${data['number']}.- ${data['nombre']}'),
-            ),
-            ListTile(
-              title: Text(data['barcode']),
-            ),
-            Image.network(data['image']),
-            ListTile(
-              title: Text('Que es?: ${data['es']}'),
-            ),
-            ListTile(
-              title: const Text('Efectos Secundarios:'),
-              subtitle: Column(
-                children: (data['efectos'] as List<dynamic>)
-                    .map((efecto) => Text('- $efecto'))
-                    .toList(),
+              title: Center(
+                child: Text(
+                  '${data['number']}.- ${data['nombre']}',
+                  style: const TextStyle(
+                      fontSize: 18.0, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             ListTile(
-              title: Text('Cómo tomarlo: ${data['como']}'),
+              title: Row(
+                children: [
+                  const Icon(FontAwesomeIcons.barcode),
+                  Text(
+                    '  ${data['barcode']}',
+                    style: const TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ],
+              ),
+            ),
+            Image.network(data['image']),
+            ListTile(
+              title: const Text(
+                'Que es?',
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(data['es']),
             ),
             ListTile(
-              title: const Text('Dónde conseguirlo:'),
+              title: const Text(
+                'Efectos Secundarios:',
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: (data['efectos'] as List<dynamic>)
+                      .map((efecto) => Text('- $efecto'))
+                      .toList(),
+                ),
+              ),
+            ),
+            ListTile(
+              title: const Text(
+                'Cómo tomarlo?',
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(data['como']),
+            ),
+            ListTile(
+              title: const Text(
+                'Dónde conseguirlo?',
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+              ),
               subtitle: Column(
                 children: (data['donde'] as Map<String, dynamic>)
                     .entries

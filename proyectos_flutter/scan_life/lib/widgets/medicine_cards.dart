@@ -20,8 +20,12 @@ class MedicineCards extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        leading: Image(
-          image: NetworkImage(data['image']),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(
+              13.0), // Puedes ajustar el radio según tus preferencias
+          child: Image(
+            image: NetworkImage(data['image']),
+          ),
         ),
         title: Text('${data['number']}.- ${data['nombre']}'),
         subtitle: Column(
