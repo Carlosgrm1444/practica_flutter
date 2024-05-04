@@ -37,6 +37,7 @@ dependencies:
   flutter_native_splash: ^2.4.0
   font_awesome_flutter: ^10.7.0
   google_nav_bar: ^5.0.6
+  icons_launcher: ^2.1.7
   qrscan: ^0.3.3
 
 dev_dependencies:
@@ -44,11 +45,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
+# flutter_launcher_icons:
+#   android: "launcher_icon"
+#   ios: true
+#   image_path: "assets/icon/scanlife_logo.jpg"
+#   min_sdk_android: 21
+
+icons_launcher:
   image_path: "assets/icon/scanlife_logo.jpg"
-  min_sdk_android: 21
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
 
 flutter_native_splash:
   color: "#42a5f5"

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qrscan/qrscan.dart';
+import 'package:scan_life/pages/acerca_de.dart';
 import 'package:scan_life/services/firebase_service.dart';
 import 'package:scan_life/widgets/medicine_cards.dart';
 import 'package:scan_life/widgets/modal_medicine.dart';
@@ -38,7 +38,9 @@ class _ListMedicinesState extends State<ListMedicines> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Medicamentos disponibles")),
+      appBar: AppBar(
+        title: const Text("Medicamentos disponibles"),
+      ),
       body: FutureBuilder(
           future: getMedicines(),
           builder: ((context, snapshot) {
@@ -57,12 +59,66 @@ class _ListMedicinesState extends State<ListMedicines> {
               );
             }
           })),
-      floatingActionButton: FloatingActionButton(
-        child: const FaIcon(FontAwesomeIcons.barcode),
-        onPressed: () {
-          scanQr();
-        },
+      bottomNavigationBar: BottomAppBar(
+        child: SizedBox(
+          height: 500.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    scanQr();
+                  },
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.scanner),
+                      Text(
+                        'Scanear',
+                        style: TextStyle(fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const InformationPage()),
+                    );
+                  },
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.info),
+                      Text(
+                        'Acerca de',
+                        style: TextStyle(fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
+
+/*
+onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const InformationPage()),
+              );
+            },
+
+
+            */
