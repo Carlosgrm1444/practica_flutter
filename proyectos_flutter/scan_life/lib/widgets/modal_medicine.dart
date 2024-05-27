@@ -45,6 +45,13 @@ class ModalMedicine extends StatelessWidget {
             ),
             ListTile(
               title: const Text(
+                'Para que sirve?',
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(data['sirve']),
+            ),
+            ListTile(
+              title: const Text(
                 'Efectos Secundarios:',
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
@@ -91,6 +98,9 @@ class ModalMedicine extends StatelessWidget {
               },
               child: const Text('Cerrar'),
             ),
+            const SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),

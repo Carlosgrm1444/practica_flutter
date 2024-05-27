@@ -7,7 +7,11 @@ Future<List> getMedicines() async {
 
   CollectionReference collectionReferenceMedicine = db.collection('medicines');
 
-  QuerySnapshot queryMedicines = await collectionReferenceMedicine.get();
+  // Aplicar el ordenamiento por el campo "number" en orden ascendente
+  Query query =
+      collectionReferenceMedicine.orderBy("number", descending: false);
+
+  QuerySnapshot queryMedicines = await query.get();
 
   for (var doc in queryMedicines.docs) {
     medicines.add(doc.data());
